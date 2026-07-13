@@ -3,5 +3,31 @@
 @section('title', 'Home Page')
 
 @section('content')
+<div>
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Search bar</h2>
+    @include('partials.search-bar')
+</div>
+
+
+<div>
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Latest Deals</h2>
+    @if(empty($advertisements))
+    <p class="container mx-auto px-4 py-8 max-w-4xl">No advertisements found.</p>
+    @else
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            @foreach($advertisements as $advertisement)
+                @include('partials.advertisement-card')
+            @endforeach
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        {{ $advertisements->links() }}
+    </div>
+
+    @endif
+</div>
+
 
 @endsection

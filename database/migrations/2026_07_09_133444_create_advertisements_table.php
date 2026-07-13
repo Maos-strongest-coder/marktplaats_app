@@ -21,6 +21,7 @@ return new class extends Migration
             $table->float('price');
             $table->boolean('is_paid')->default(false);
             $table->timestamps();
+            $table->fullText(['title', 'content']);
         });
     }
 

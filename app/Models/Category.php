@@ -12,7 +12,7 @@ class Category extends Model
 
     public function advertisements(): HasMany 
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Advertisement::class);
     }
 }
 

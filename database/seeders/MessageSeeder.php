@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Message;
+use App\Models\User;
 
 class MessageSeeder extends Seeder
 {
@@ -13,6 +14,8 @@ class MessageSeeder extends Seeder
      */
     public function run(): void
     {
-        Message::factory()->count(20)->create();
+        $users = User::all();
+
+        Message::factory()->count(20)->recycle($users)->create();
     }
 }
