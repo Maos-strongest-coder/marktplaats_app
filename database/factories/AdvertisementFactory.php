@@ -27,6 +27,7 @@ class AdvertisementFactory extends Factory
             'image_path' => $this->faker->imageUrl(),
             'price' => $this->faker->randomFloat(2, 1, 999),
             'is_paid' => $this->faker->boolean,
+            'is_active' => $this->faker->boolean,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }

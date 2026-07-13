@@ -9,6 +9,7 @@
         <body class="h-full">
             @include('partials.header')
             @include('partials.nav')
+            @include('partials.errors')
             
             @yield('content')
         </body>

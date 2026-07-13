@@ -1,13 +1,18 @@
 <header class="relative bg-white shadow-sm">
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <?php $pageName = explode('.', ($currentRoute = request()->route()->getName()))[0] ?? $currentRoute; ?>
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900">
-        @auth
-          Welcome {{ auth()->user()->name }},
-        @else
-          Welcome,
-        @endauth
-        <?php echo 'you are currently on the ' . $pageName . ' page'; ?>
-      </h1>
-    </div>
-  </header>
+
+
+  <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+    @auth
+    Welcome, {{ auth()->user()->name }}!
+    @else
+    Welcome, Guest!
+    @endauth
+  </h1>
+
+  @auth
+  <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="bg-red-600 text-white px-4 py-2">Log out</button>
+  </form>
+  @endauth
+</header>
