@@ -7,3 +7,15 @@
             </ul>
         </div>
 @endif
+
+@if(session('status'))
+    <div class="bg-green-600 text-white p-3 mb-4">
+        {{session('status')}}
+    </div>
+@endif
+
+@if(session('message'))
+    <div class="bg-green-600 text-white p-3 mb-4">
+        {{session('message')}}
+    </div>
+@endif

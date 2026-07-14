@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use app\Models\Advertisement;
-use app\Models\Bid;
-use app\Models\Message;
+use App\Models\Advertisement;
+use App\Models\Bid;
+use App\Models\Message;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 
 
 #[Fillable(['name', 'email', 'password'])]

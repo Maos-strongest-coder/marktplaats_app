@@ -20,7 +20,7 @@
             <label class="block">Password</label>
             <input type="password" name="password" class="border p-2" placeholder="********" required>
         </div>
-
+        <a href="{{ route('password.request') }}" class="text-black hover:text-blue-300" >I forgot my password</a><br>
         <button type="submit" class="bg-blue-600 text-white px-4 py-2">Log in</button>
     </form>
 

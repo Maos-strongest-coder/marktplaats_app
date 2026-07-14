@@ -21,13 +21,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
-        return (new MailMessage)
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return (new MailMessage)
             ->subject("Welcome to Mo's marketplace - Verify Your Email")
             ->greeting('Hello ' . $notifiable->name . ',')
             ->line('Thank you for registering an account.')
             ->line('Click the button below to verify your email address.')
             ->action('Verify Email Address', $url);
-    });
+        });
+
+        
+
     }
 }

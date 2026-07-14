@@ -3,11 +3,7 @@
 @section('title', 'My Advertisements')
 
 @section('content')
-@if(session('message'))
-    <div class="bg-green-600 text-white p-3 mb-4">
-        {{session('message')}}
-    </div>
-@endif
+
 
 <h2 class="text-2xl font-bold mb-6 text-gray-800">My Advertisements</h2>
 
