@@ -3,10 +3,18 @@
 @section('title', 'My Advertisements')
 
 @section('content')
+@if(session('message'))
+    <div class="bg-green-600 text-white p-3 mb-4">
+        {{session('message')}}
+    </div>
+@endif
+
 <h2 class="text-2xl font-bold mb-6 text-gray-800">My Advertisements</h2>
 
-@if(empty($advertisements))
+@if($advertisements->empty())
 <p>No advertisements found.</p>
+
+<a class="font-bold">Create a new Advertisement -></a>
 @else
 <div class="container mx-auto px-4 py-8 max-w-4xl">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained();
             $table->string('title');
             $table->text('content');
-            $table->string('image');
+            $table->string('image_path');
             $table->float('price');
             $table->boolean('is_paid')->default(false);
             $table->boolean('is_active')->default(true);
