@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Models\Advertisement;
 
 /**
  * @extends Factory<Category>
@@ -19,7 +20,9 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'advertisement_id' => Advertisement::factory(),
+            'sender_id' => User::factory(),
+            'receiver_id' => User::factory(),
             'content' => $this->faker->paragraph,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
