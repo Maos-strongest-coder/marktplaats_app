@@ -7,6 +7,9 @@
         @auth
         <a href="{{ route('advertisements.my') }}" class="<?php if ($_SERVER['REQUEST_URI'] === '/advertisements/my') echo 'bg-black text-white hover:text-blue-300';
                                                         else echo 'text-white hover:bg-white/5 hover:text-blue-300'; ?>">My Advertisements</a>
+
+        <a href="{{ route('advertisements.my') }}" class="<?php if ($_SERVER['REQUEST_URI'] === '/advertisements/my') echo 'bg-black text-white hover:text-blue-300';
+                                                        else echo 'text-white hover:bg-white/5 hover:text-blue-300'; ?>">Inbox</a>
         @endauth
         @guest
         <a href="{{ route('login') }}" class="<?php if ($_SERVER['REQUEST_URI'] === '/login') echo 'bg-black text-white hover:text-blue-300';
