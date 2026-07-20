@@ -11,5 +11,4 @@
     @endif
 
     <h3 class="text-lg font-bold">${{ $advertisement->price }}</h3>
-
 </div>

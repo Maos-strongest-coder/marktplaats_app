@@ -8,7 +8,7 @@
         <a href="{{ route('advertisements.my') }}" class="<?php if ($_SERVER['REQUEST_URI'] === '/advertisements/my') echo 'bg-black text-white hover:text-blue-300';
                                                         else echo 'text-white hover:bg-white/5 hover:text-blue-300'; ?>">My Advertisements</a>
 
-        <a href="{{ route('advertisements.my') }}" class="<?php if ($_SERVER['REQUEST_URI'] === '/advertisements/my') echo 'bg-black text-white hover:text-blue-300';
+        <a href="{{ route('inbox') }}" class="<?php if ($_SERVER['REQUEST_URI'] === '/messages/inbox') echo 'bg-black text-white hover:text-blue-300';
                                                         else echo 'text-white hover:bg-white/5 hover:text-blue-300'; ?>">Inbox</a>
         @endauth
         @guest

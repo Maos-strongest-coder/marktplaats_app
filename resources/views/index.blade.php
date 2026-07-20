@@ -4,12 +4,8 @@
 
 @section('content')
 
+@include('partials.search-bar')
 
-
-<div>
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">Search bar</h2>
-    @include('partials.search-bar')
-</div>
 
 
 <div>

@@ -18,7 +18,7 @@ class MessageSeeder extends Seeder
         $users = User::all();
         $advertisements = Advertisement::all();
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
             
             $advertisement = $advertisements->random();
 

@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Notifications\MessageReceived;
 
 class MessageController extends Controller
 {
-    public function inbox()
-    {
-        //haal alle berichten op waar user receiver or sender is
-    }
-
     public function sendMessage(Request $request)
     {
         $outgoingValues = $request->validate([
@@ -25,12 +22,27 @@ class MessageController extends Controller
             return redirect()->back()->with('error', 'You cannot send a message to yourself');
         }
 
+        $message = Auth::user()->sent()->create([
+            'content' => $outgoingValues['content'],
+            'receiver_id' => $outgoingValues['receiver_id'],
+            'advertisement_id' => $outgoingValues['advertisement_id'],
+        ]);
+
+        $receiver = User::find($outgoingValues['receiver_id']);
+
+        $receiver->notify(new MessageReceived($message));
+
+
+
         Auth::user()->sent()->create([
             'content' => $outgoingValues['content'],
             'receiver_id' => $outgoingValues['receiver_id'],
             'advertisement_id' => $outgoingValues['advertisement_id'],
         ]);
 
-        return redirect()->back()->with('message', 'Message sent successfully');
+        return redirect()->route('inbox', [
+            'partner_id' => $outgoingValues['receiver_id'],
+            'advertisement_id' => $outgoingValues['advertisement_id']
+        ])->with('message', 'Message sent successfully');
     }
 }

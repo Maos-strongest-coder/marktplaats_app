@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
 use App\Models\User;
-
+use App\Http\Controllers\InboxController;
+use App\Http\Controllers\MessageController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
@@ -88,3 +89,7 @@ Route::post('/reset-password', function (Request $request) {
         ? redirect()->route('login')->with('status', __($status))
         : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
+
+Route::get('/messages/inbox', [InboxController::class, 'inbox'])->name('inbox')->middleware('auth', 'verified');
+
+Route::post('messages/send', [MessageController::class, 'sendMessage'])->name('messages.send')->middleware('auth');
