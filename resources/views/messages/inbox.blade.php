@@ -16,10 +16,10 @@
                         $partner = $conversation->sender_id === Auth::id() ? $conversation->receiver : $conversation->sender;
                         $ad = $conversation->advertisement;
 
-                        $isActive = request('partner_id') == $conversation->partner_id && request('advertisement_id') == $conversation->advertisement_id;
+                        $isActive = request('partner_id') == $partner->id && request('advertisement_id') == $conversation->advertisement_id;
                     @endphp
                     <li>
-                       <a href="{{ route('inbox', ['partner_id' => $conversation->partner_id, 'advertisement_id' => $conversation->advertisement_id]) }}" class="block p-4 hover:bg-gray-100 transition {{ $isActive ? 'bg-blue-50' : '' }}">
+                       <a href="{{ route('inbox', ['partner_id' => $partner->id, 'advertisement_id' => $conversation->advertisement_id]) }}" class="block p-4 hover:bg-blue-500 transition {{ $isActive ? 'bg-blue-300' : '' }}">
                         
                             <p class="font-medium">{{$partner->name }}</p>
 
@@ -49,7 +49,7 @@
                 </div>
             
 
-                <!-- berichten -->
+                
                  <div class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50/30">
                     @foreach($activeMessages as $message)
                         @php $isMe =$message->sender_id === Auth::id(); @endphp
@@ -66,7 +66,7 @@
                     @endforeach
                  </div>
 
-                <!-- verzendbox -->
+                
                 <div class="p-4 border-t bg-white shrink-0">
                     <form action="{{ route('messages.send') }}" method="POST" class="flex gap-2">
                         @csrf

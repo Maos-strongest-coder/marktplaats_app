@@ -15,12 +15,19 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/advertisements/my', [AdvertisementController::class, 'myAdvertisements'])->name('advertisements.my')->middleware('auth', 'verified');
 
+Route::get('/advertisements/create', [AdvertisementController::class, 'create'])->name('advertisements.create')->middleware('auth', 'verified');
+Route::post('/advertisements', [AdvertisementController::class, 'store'])->name('advertisements.store')->middleware('auth', 'verified');
+
 Route::get('/advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
+
+
+
 
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register')->middleware('guest');
 Route::post('/register', [RegisterController::class, 'register']);
@@ -93,3 +100,7 @@ Route::post('/reset-password', function (Request $request) {
 Route::get('/messages/inbox', [InboxController::class, 'inbox'])->name('inbox')->middleware('auth', 'verified');
 
 Route::post('messages/send', [MessageController::class, 'sendMessage'])->name('messages.send')->middleware('auth');
+
+Route::get('/settings', [SettingsController::class, 'showSettings'])->name('settings.show')->middleware('auth');
+
+Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');

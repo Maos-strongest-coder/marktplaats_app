@@ -10,6 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Advertisement extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'content',
+        'image_path',
+        'category_id',
+        'price',
+        'is_paid',
+        'is_active',
+    ];
     
     public function category(): BelongsTo 
     {

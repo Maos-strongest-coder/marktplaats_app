@@ -7,17 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Message;
+use Illuminate\Notifications\Notifiable;
 
 class MessageReceived extends Notification
 {
     use Queueable;
-    public Message $message;
+    
     /**
      * Create a new notification instance.
      */
-    public function __construct(Message $message)
+    public function __construct(public Message $message)
     {
-        $this->message = $message;
+        
     }
 
     /**
@@ -27,23 +28,24 @@ class MessageReceived extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return $notifiable->notifications_enabled ? ['mail'] : [];
     }
 
+    
     /**
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
     {
-
         return (new MailMessage)
-            ->greeting('Hello, ' . $notifiable->name . ',')
-            ->line('You have received a new message.')
-            ->action('View Messages', route('inbox', [
-                'partner_id' => $this->message->sender_id,
-                'advertisement_id' => $this->message->advertisement_id
-            ]))
-            ->line("Thank you for using Mo's Marketplace!");
+        ->subject("New message on Mo's Marketplace!")
+        ->greeting('Hello, ' . $notifiable->name . ',')
+        ->line('You have received a new message.')
+        ->action('View Messages', route('inbox', [
+            'partner_id' => $this->message->sender_id,
+            'advertisement_id' => $this->message->advertisement_id
+        ]))
+        ->line("Thank you for using Mo's Marketplace!");
     }
 
     /**

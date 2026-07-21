@@ -27,6 +27,7 @@ class RegisterController extends Controller
             'name' => $incomingValues['name'],
             'email' => $incomingValues['email'],
             'password' => Hash::make($incomingValues['password']),
+            'notifications_enabled' => $request->has('notifications_enabled')
         ]);
 
         event(new Registered($user));

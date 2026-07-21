@@ -15,15 +15,17 @@ class InboxController extends Controller
     {
         $authId = Auth::id();
 
-        $conversations = Message::where('sender_id', $authId)
-            ->orWhere('receiver_id', $authId)
-            ->select(
-                'advertisement_id',
-                'sender_id',
-                'receiver_id',
-                DB::raw("CASE WHEN sender_id = $authId THEN receiver_id ELSE sender_id END as partner_id"))
-            ->groupBy('advertisement_id', 'partner_id', 'sender_id', 'receiver_id')
+        $conversations = Message::whereIn('id', function ($query) use ($authId) {
+            $query->select(DB::raw('MAX(id)'))
+                ->from('messages')
+                ->where('sender_id', $authId)
+                ->orWhere('receiver_id', $authId)
+                ->groupBy('advertisement_id',  DB::raw("CASE WHEN sender_id = $authId THEN receiver_id ELSE sender_id END"));
+        })
+            ->with(['sender', 'receiver', 'advertisement'])
+            ->latest()
             ->get();
+            
             
             
 

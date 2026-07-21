@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -13,12 +13,11 @@ use App\Models\Advertisement;
 use App\Models\Bid;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
@@ -41,6 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'notifications_enabled'
     ];
 
     protected $hidden = [
@@ -57,12 +57,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Bid::class);
     }
 
-    public function sent()
+    public function sent(): HasMany
     {
         return $this->hasMany(Message::class, 'sender_id');
     }
 
-    public function received()
+    public function received(): HasMany
     {
         return $this->hasMany(Message::class, 'receiver_id');
     }
