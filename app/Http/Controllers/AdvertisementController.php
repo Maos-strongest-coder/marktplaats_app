@@ -55,4 +55,26 @@ class AdvertisementController extends Controller
 
         return redirect()->route('advertisements.my')->with('message', 'Advertisement created Successfully');
     }
+
+    public function edit(Advertisement $advertisement)
+    {
+        $categories = Category::all();
+        return view('advertisements.edit', compact('advertisement', 'categories'));
+    }
+
+    public function update(Request $request, Advertisement $advertisement)
+    {
+        $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string|min:10',
+        'image_path' => 'nullable|string|max:255',
+        'category_id' => 'required|exists:categories,id',
+        'price' => 'required|numeric|min:0|max:9001',
+    ]);
+
+        $advertisement->update($validated);
+        
+        return redirect()->route('advertisements.my')->with('message', 'Advertisement updated successfully!');
 }
+    }
+

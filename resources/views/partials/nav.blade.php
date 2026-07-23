@@ -1,7 +1,7 @@
 <nav class="bg-gray-800">
 
     <div class="ml-10 flex items-baseline space-x-4">
-        <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'bg-black text-white' : 'text-white hover:bg-white/5 hover:text-blue-300' }} px-3 py-2 rounded-md text-sm font-medium">
+        <a href="{{ route('dashboard.index') }}" class="{{ request()->routeIs('dashboard.index') ? 'bg-black text-white' : 'text-white hover:bg-white/5 hover:text-blue-300' }} px-3 py-2 rounded-md text-sm font-medium">
             Home Page
         </a>
         

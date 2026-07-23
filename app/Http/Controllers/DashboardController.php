@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Advertisement;
 
-class IndexController extends Controller
+class DashboardController extends Controller
 {
     public function index(Request $request)
     {
@@ -28,7 +28,7 @@ class IndexController extends Controller
         $advertisements = $query->paginate(9)->withQueryString();
         
 
-        return view('index', compact('categories', 'advertisements'));
+        return view('dashboard', compact('categories', 'advertisements'));
     }
 }
 
