@@ -6,8 +6,8 @@ namespace App\Http\Controllers;
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
-use app\Http\Requests\StoreAdvertisementRequest;
-use app\Http\Requests\UpdateAdvertisementRequest;
+use App\Http\Requests\StoreAdvertisementRequest;
+use App\Http\Requests\UpdateAdvertisementRequest;
 
 
  
@@ -66,6 +66,17 @@ class AdvertisementController extends Controller
         $advertisement->update($validated);
         
         return redirect()->route('advertisements.my')->with('message', 'Advertisement updated successfully!');
-}
     }
+
+    public function destroy(Advertisement $advertisement)
+    {
+        if (Auth::id() !== $advertisement->user_id) {
+            return redirect()->route('advertisements.my')->withErrors(['error' => 'You are not authorized to delete this advertisement.']);
+        }
+
+        $advertisement->delete();
+
+        return redirect()->route('advertisements.my')->with('message', 'Advertisement deleted successfuly');
+    }
+}
 

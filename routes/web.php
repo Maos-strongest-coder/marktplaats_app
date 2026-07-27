@@ -124,6 +124,9 @@ Route::middleware(['auth'])->group(function()  {
 
                 Route::put('{advertisement}', 'update')
                         ->name('update');
+                
+                Route::delete('{advertisement}', 'destroy')
+                    ->name('destroy');
             });
     
     

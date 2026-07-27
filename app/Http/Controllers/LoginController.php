@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use app\Http\Requests\LoginRequest;
+use App\Http\Requests\LoginRequest;
 
 class LoginController extends Controller
 {

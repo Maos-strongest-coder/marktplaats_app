@@ -1,7 +1,7 @@
 <div class="bg-white rounded-lg overflow-hidden">
     <p>category: {{ $advertisement->category->name}}</p>
 
-    <img src="{{asset($advertisement->image)}}" class="w-full rouded-lg">
+    <img src="{{asset($advertisement->image_path)}}" class="w-full rouded-lg">
 
     <a href="{{ route('advertisements.show', $advertisement->id) }}" class="block mt-2 text-lg font-bold text-gray-900 hover:text-blue-500">{{ $advertisement->title }}</a>
     
@@ -18,8 +18,12 @@
             <a href="{{ route('advertisements.edit', $advertisement->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">
                 Edit</a>
 
-            <a>
-                Delete</a>
-        </div>
+            <form action="{{ route('advertisements.destroy', $advertisement->id) }}" method="post" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded"  onclick="return confirm('You are about to delete this Advertisement. Are you sure?')">
+                    Delete</button>
+            </form>
+        </div> 
     @endif
 </div>
