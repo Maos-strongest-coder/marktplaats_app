@@ -48,7 +48,7 @@ Route::middleware(['guest'])->group(function()  {
 
             Route::get('', 'showLinkRequestForm')
                 ->name('request');
-            Route::post('', 'sendResetLinkEmail')
+            Route::post('', 'sendResetLink')
                 ->name('email');
          });
 

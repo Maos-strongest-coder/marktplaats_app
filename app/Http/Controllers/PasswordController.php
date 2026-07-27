@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Http\Requests\SendResetLinkRequest;
+use App\Http\Requests\ResetPasswordRequest;
+
 
 class PasswordController extends Controller
 {
@@ -17,9 +20,9 @@ class PasswordController extends Controller
         return view('auth.forgot-password');
     }
     
-    public function sendResetLinkEmail(Request $request) 
+    public function sendResetLink(SendResetLinkRequest $request) 
     {
-        $request->validate(['email' => 'required|email']);
+        $request->validated();
 
         $status = Password::sendResetLink($request->only('email'));
 
@@ -34,13 +37,9 @@ class PasswordController extends Controller
         return view('auth.reset-password', ['token' => $token, 'request' => $request]);
     }
 
-    public function reset(Request $request) 
+    public function reset(ResetPasswordRequest $request) 
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ]);
+        $request->validated();
     
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
@@ -59,6 +58,4 @@ class PasswordController extends Controller
             ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
-
-    
 }

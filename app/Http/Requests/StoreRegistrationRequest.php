@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateAdvertisementRequest extends FormRequest
+class StoreRegistrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +24,10 @@ class UpdateAdvertisementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string', 'min:10'],
-            'image_path' => ['nullable', 'string', 'max:255'],
-            'category_id' => ['required', 'exists:categories,id'],
-            'price' => ['required', 'numeric', 'min:0', 'max:9001'],
+            'name' => ['required', 'min:2', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => ['required', 'min:8'],
+            'notifications_enabled' => ['sometimes', 'boolean'],
         ];
     }
 }

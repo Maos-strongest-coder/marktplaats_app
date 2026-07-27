@@ -19,6 +19,6 @@ class SettingsController extends Controller
             'notifications_enabled' => $request->has('notifications_enabled')
         ]);
 
-        return redirect()->back()->with('message', 'Setings changed succesfully');
+        return redirect()->back()->with('message', 'Settings changed succesfully');
     }
 }
