@@ -11,16 +11,17 @@ use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
-    public function showRegisterForm()
+    public function show()
     {
         return view('auth.register');
     }
 
-    public function register(Request $request) {
+    public function store(Request $request) {
         $incomingValues = $request->validate([
             'name' => ['required', 'min:2', 'max:255'],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'min:8'],
+            'notifications_enabled' => ['required', 'boolean'],
         ]);
 
         $user = User::create([

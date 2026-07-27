@@ -8,7 +8,7 @@
         <h2 class="text-2xl font-bold mb-6 text-gray-800">Login</h2>
     </div>
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login.attempt') }}">
         @csrf
 
         <div class="mb-4">
@@ -27,7 +27,7 @@
     <div>
         <h2 class="text-2xl font-bold mb-6 text-gray-800">No account yet?</h2>
         <p class="text-gray-600"></p>
-        <a href="{{ route('register') }}" class="text-blue-600 font-bold flex flex-col items-center justify-center hover:text-blue-300">Sign up to create an account</a>
+        <a href="{{ route('register.show') }}" class="text-blue-600 font-bold flex flex-col items-center justify-center hover:text-blue-300">Sign up to create an account</a>
     </div>
 </div>
 @endsection

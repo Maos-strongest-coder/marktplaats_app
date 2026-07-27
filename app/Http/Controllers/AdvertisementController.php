@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
+use app\Http\Requests\StoreAdvertisementRequest;
+use app\Http\Requests\UpdateAdvertisementRequest;
+
 
  
 
@@ -31,15 +34,9 @@ class AdvertisementController extends Controller
         return view('advertisements.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreAdvertisementRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|min:10',
-            'image_path' => 'nullable|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-        ]);
+        $validated = $request->validated();
 
         $user = Auth::user();
 
@@ -62,15 +59,9 @@ class AdvertisementController extends Controller
         return view('advertisements.edit', compact('advertisement', 'categories'));
     }
 
-    public function update(Request $request, Advertisement $advertisement)
+    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement)
     {
-        $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string|min:10',
-        'image_path' => 'nullable|string|max:255',
-        'category_id' => 'required|exists:categories,id',
-        'price' => 'required|numeric|min:0|max:9001',
-    ]);
+        $validated = $request->validated();
 
         $advertisement->update($validated);
         

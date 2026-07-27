@@ -8,12 +8,12 @@
         <h2 class="text-2xl font-bold mb-6 text-gray-800">Register</h2>
     </div>
 
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register.store') }}">
         @csrf
 
          <div class="mb-4">
             <label class="block">Name</label>
-            <input type="name" name="name" value="{{ old('name') }}" placeholder="John Doe" class="border p-2" required>
+            <input type="text" name="name" value="{{ old('name') }}" placeholder="John Doe" class="border p-2" required>
         </div>
 
         <div class="mb-4">
@@ -27,7 +27,7 @@
         </div>
 
         <label class="block">
-            <input type="checkbox" name="nofications_enabled" value="1" checked>
+            <input type="checkbox" name="notifications_enabled" value="1" checked>
             <span class="text-lg font-medium mb-6 text-gray-800">enable email notifications</span>
         </label>
 
