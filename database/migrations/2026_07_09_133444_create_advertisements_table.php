@@ -19,10 +19,11 @@ return new class extends Migration
             $table->text('content');
             $table->string('image_path');
             $table->float('price');
-            $table->boolean('is_paid')->default(false);
+            $table->boolean('is_promoted')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->fullText(['title', 'content']);
+            $table->timestamp('promoted_at')->nullable();
         });
     }
 

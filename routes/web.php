@@ -127,6 +127,12 @@ Route::middleware(['auth'])->group(function()  {
                 
                 Route::delete('{advertisement}', 'destroy')
                     ->name('destroy');
+                
+                Route::get('{advertisement}/promote', 'promoteForm')
+                    ->name('promote');
+
+                Route::post('{advertisement}/promote', 'promote')
+                    ->name('promote');
             });
     
     

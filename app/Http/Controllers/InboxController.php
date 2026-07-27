@@ -26,9 +26,6 @@ class InboxController extends Controller
             ->latest()
             ->get();
             
-            
-            
-
         $activeMessages = collect();
 
         if($request->has(['partner_id', 'advertisement_id'])) 

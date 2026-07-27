@@ -38,6 +38,7 @@ class AdvertisementController extends Controller
     {
         $validated = $request->validated();
 
+        /** @var \App\Models\User $user  */
         $user = Auth::user();
 
         $user->advertisements()->create([
@@ -46,10 +47,11 @@ class AdvertisementController extends Controller
             'image_path' => $validated['image_path'],
             'category_id' => $validated['category_id'],
             'price' => $validated['price'],
-            'is_paid' => $request->input('is_paid', false),
+            'is_promoted' => $request->input('is_promoted', false),
             'is_active' => $request->input('is_active', true),
+            'promoted_at' => $request->has('promote') ? now() : null,
         ]);
-
+        
         return redirect()->route('advertisements.my')->with('message', 'Advertisement created Successfully');
     }
 
@@ -78,5 +80,29 @@ class AdvertisementController extends Controller
 
         return redirect()->route('advertisements.my')->with('message', 'Advertisement deleted successfuly');
     }
+
+    public function promoteForm(Advertisement $advertisement)
+    {
+        if (Auth::id() !== $advertisement->user_id) {
+            return redirect()->back()->withErrors(['error' => "You cannot promote someone else's advertisement"]);
+        }
+
+        return view('advertisements.promote', ['advertisement' => $advertisement]);
+    }
+
+    public function promote(Advertisement $advertisement)
+    {
+        if (Auth::id() !== $advertisement->user_id) {
+            return redirect()->back()->withErrors(['error' => "You cannot promote someone else's advertisement"]);
+        }
+
+        $advertisement->update([
+            'is_promoted' => true,
+            'promoted_at' => now(),
+        ]);
+
+        return redirect()->route('advertisements.my')->with('message', 'Advertisement promoted successfuly');
+    }
+
 }
 

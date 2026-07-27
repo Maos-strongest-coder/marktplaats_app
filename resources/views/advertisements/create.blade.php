@@ -25,6 +25,7 @@
                 <textarea name="content" rows="8" class="border p-2" required>{{ old('content') }}</textarea>
             </div>
 
+
             <div class="mb-4">
                 <label class="block font-medium">Select a Category</label>
                 <select name="category_id" required>
@@ -42,6 +43,11 @@
                 $<input type="number" name="price" value="{{ old('price') }}" min="0" max="9001" step=".01" class="border p-2 " required>
             </div>
 
+            <div class="mb-4">
+                <label class="block font-medium">Pay ten dorra to promote your advertisment!</label>
+                <input type="checkbox" name="is_promoted" value="1" {{ old('promote')  ? 'checked' : '' }}>
+            </div>
+            
             <button type="submit" class="bg-blue-600 text-white px-4 py-2">Publish Advertisement</button>
         </form>
     </div>

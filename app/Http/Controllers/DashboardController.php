@@ -13,7 +13,10 @@ class DashboardController extends Controller
     {
         $categories = Category::orderBy('name', 'asc')->get();
 
-        $query = Advertisement::query()->where('is_active', true)->orderBy('created_at', 'desc');
+        $query = Advertisement::query()->where('is_active', true)
+            ->orderByRaw('promoted_at IS NULL')   
+            ->orderByDesc('promoted_at')
+            ->orderByDesc('created_at', 'desc');
 
         $query->when($request->filled('search'), function ($query) use ($request) {
             $query->whereFullText(['title', 'content'], $request->input('search'));
