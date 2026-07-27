@@ -13,14 +13,14 @@ class InboxController extends Controller
 {
     public function inbox(Request $request)
     {
-        $authId = Auth::id();
+        $UserId = Auth::id();
 
-        $conversations = Message::whereIn('id', function ($query) use ($authId) {
+        $conversations = Message::whereIn('id', function ($query) use ($UserId) {
             $query->select(DB::raw('MAX(id)'))
                 ->from('messages')
-                ->where('sender_id', $authId)
-                ->orWhere('receiver_id', $authId)
-                ->groupBy('advertisement_id',  DB::raw("CASE WHEN sender_id = $authId THEN receiver_id ELSE sender_id END"));
+                ->where('sender_id', $UserId)
+                ->orWhere('receiver_id', $UserId)
+                ->groupBy('advertisement_id',  DB::raw("CASE WHEN sender_id = $UserId THEN receiver_id ELSE sender_id END"));
         })
             ->with(['sender', 'receiver', 'advertisement'])
             ->latest()
@@ -34,19 +34,19 @@ class InboxController extends Controller
         if($request->has(['partner_id', 'advertisement_id'])) 
         {
             $activeMessages = Message::where('advertisement_id', $request->query('advertisement_id'))
-                ->where(function ($query) use ($authId, $request) 
+                ->where(function ($query) use ($UserId, $request) 
                 {
                     $partnerId = $request->query('partner_id');
 
-                    $query->where(function ($q) use ($authId, $partnerId) 
+                    $query->where(function ($q) use ($UserId, $partnerId) 
                     {
-                        $q->where('sender_id', $authId)
+                        $q->where('sender_id', $UserId)
                           ->where('receiver_id', $partnerId);
 
-                    })->orWhere(function ($q) use ($authId, $partnerId) 
+                    })->orWhere(function ($q) use ($UserId, $partnerId) 
                     {
                         $q->where('sender_id', $partnerId)
-                          ->where('receiver_id', $authId);
+                          ->where('receiver_id', $UserId);
                     });
                 })
                 ->with(['sender', 'receiver', 'advertisement'])

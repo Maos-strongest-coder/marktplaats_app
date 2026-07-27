@@ -41,7 +41,7 @@ class MessageReceived extends Notification
         ->subject("New message on Mo's Marketplace!")
         ->greeting('Hello, ' . $notifiable->name . ',')
         ->line('You have received a new message.')
-        ->action('View Messages', route('inbox', [
+        ->action('View Messages', route('messages.inbox', [
             'partner_id' => $this->message->sender_id,
             'advertisement_id' => $this->message->advertisement_id
         ]))

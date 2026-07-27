@@ -34,7 +34,7 @@ class MessageController extends Controller
 
         $receiver->notify(new MessageReceived($message));
 
-        return redirect()->route('inbox', [
+        return redirect()->route('messages.inbox', [
             'partner_id' => $outgoingValues['receiver_id'],
             'advertisement_id' => $outgoingValues['advertisement_id']
         ])->with('message', 'Message sent successfully');

@@ -14,7 +14,7 @@
             Create a new Advertisement
         </a>
 
-        <a href="{{ route('inbox') }}" class="{{ request()->routeIs('inbox') ? 'bg-black text-white' : 'text-white hover:bg-white/5 hover:text-blue-300' }} px-3 py-2 rounded-md text-sm font-medium">
+        <a href="{{ route('messages.inbox') }}" class="{{ request()->routeIs('inbox') ? 'bg-black text-white' : 'text-white hover:bg-white/5 hover:text-blue-300' }} px-3 py-2 rounded-md text-sm font-medium">
             Inbox
         </a>
         

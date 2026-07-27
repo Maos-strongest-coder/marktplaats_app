@@ -124,10 +124,12 @@ Route::middleware(['auth'])->group(function()  {
 
                 Route::put('{advertisement}', 'update')
                         ->name('update');
-        });
+            });
     
     
-        Route::prefix('messages')->group(function() {
+        Route::prefix('messages')
+            ->name('messages.')
+            ->group(function() {
                 
                 Route::get('inbox', [InboxController::class, 'inbox'])
                     ->name('inbox');
