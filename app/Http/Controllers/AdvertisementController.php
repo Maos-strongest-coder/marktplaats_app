@@ -41,15 +41,17 @@ class AdvertisementController extends Controller
         /** @var \App\Models\User $user  */
         $user = Auth::user();
 
+        $isPromoted = $request->boolean('is_promoted');
+
         $user->advertisements()->create([
             'title' => $validated['title'],
             'content' => $validated['content'],
             'image_path' => $validated['image_path'],
             'category_id' => $validated['category_id'],
             'price' => $validated['price'],
-            'is_promoted' => $request->input('is_promoted', false),
+            'is_promoted' => $isPromoted,
             'is_active' => $request->input('is_active', true),
-            'promoted_at' => $request->has('promote') ? now() : null,
+            'promoted_at' => $isPromoted ? now() : null,
         ]);
         
         return redirect()->route('advertisements.my')->with('message', 'Advertisement created Successfully');

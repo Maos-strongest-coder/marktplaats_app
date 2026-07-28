@@ -5,7 +5,26 @@
 @section('content')
 
 @include('partials.search-bar')
+<div>
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Featured Deals</h2>
+    @if($featuredAds->isEmpty())
+    <p class="container mx-auto px-4 py-8 max-w-4xl">No advertisements found.</p>
+    @else
+    
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            @foreach($featuredAds as $advertisement)
+                @include('partials.advertisement-card')
+            @endforeach
+        </div>
+    </div>
 
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        {{ $featuredAds->withQueryString()->links() }}
+    </div>
+
+    @endif
+</div>
 
 
 <div>
@@ -22,7 +41,7 @@
     </div>
 
     <div class="container mx-auto px-4 py-8 max-w-4xl">
-        {{ $advertisements->links() }}
+        {{ $advertisements->withQueryString()->links() }}
     </div>
 
     @endif

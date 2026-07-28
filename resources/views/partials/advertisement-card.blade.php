@@ -18,6 +18,10 @@
 
     <h3 class="text-lg font-bold">${{ $advertisement->price }}</h3>
 
+    @if($advertisement->is_promoted && $advertisement->promoted_at)
+    {{$advertisement->promoted_at->format('d M Y H:i')}}
+    @endif
+
     @if (request()->routeIs('advertisements.show', 'advertisements.my') && Auth()->id() === $advertisement->user_id)
         <div class="p-4 border-t bg-white shrink-0">
             <a href="{{ route('advertisements.edit', $advertisement->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">

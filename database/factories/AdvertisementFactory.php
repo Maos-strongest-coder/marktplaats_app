@@ -19,6 +19,10 @@ class AdvertisementFactory extends Factory
      */
     public function definition(): array
     {
+        $isPromoted = fake()->boolean(10);
+
+        $createdAt = fake()->dateTimeBetween('-1 year', 'now');
+        
         return [
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
@@ -26,9 +30,10 @@ class AdvertisementFactory extends Factory
             'content' => $this->faker->paragraph,
             'image_path' => $this->faker->imageUrl(),
             'price' => $this->faker->randomFloat(2, 1, 999),
-            'is_promoted' => $this->faker->boolean,
+            'is_promoted' => $isPromoted,
             'is_active' => $this->faker->boolean,
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'created_at' =>  $createdAt,
+            'promoted_at' => $isPromoted ? fake()->dateTimeBetween($createdAt, 'now') : null
         ];
     }
 }

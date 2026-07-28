@@ -17,9 +17,16 @@ class Advertisement extends Model
         'category_id',
         'price',
         'is_promoted',
+        'promoted_at',
         'is_active',
     ];
     
+    protected $casts = [
+        'promoted_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function category(): BelongsTo 
     {
         return $this->belongsTo(Category::class);
