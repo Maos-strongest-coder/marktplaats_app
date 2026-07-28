@@ -14,7 +14,6 @@ class DashboardController extends Controller
         $categories = Category::orderBy('name', 'asc')->get();
 
         $query = Advertisement::query()
-            ->where('is_active', true)
             ->orderByDesc('created_at', 'desc');
 
         $query->when($request->filled('search'), function ($query) use ($request) {

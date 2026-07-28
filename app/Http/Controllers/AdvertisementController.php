@@ -16,6 +16,10 @@ class AdvertisementController extends Controller
 {
     public function show(Advertisement $advertisement)
     {
+        $advertisement->load(['bids' => function ($query) {
+            $query->orderByDesc('amount');
+        }, 'bids.user']);
+
         return view('advertisements.show', compact('advertisement'));
     }
 
@@ -50,7 +54,6 @@ class AdvertisementController extends Controller
             'category_id' => $validated['category_id'],
             'price' => $validated['price'],
             'is_promoted' => $isPromoted,
-            'is_active' => $request->input('is_active', true),
             'promoted_at' => $isPromoted ? now() : null,
         ]);
         

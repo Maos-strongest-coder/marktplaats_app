@@ -18,7 +18,6 @@ class Advertisement extends Model
         'price',
         'is_promoted',
         'promoted_at',
-        'is_active',
     ];
     
     protected $casts = [
