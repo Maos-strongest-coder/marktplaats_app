@@ -1,5 +1,7 @@
 <div class="bg-white rounded-lg overflow-hidden">
-    <p>category: {{ $advertisement->category->name}}</p>
+    <div class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full w-max">
+                {{ $advertisement->category->name}}
+            </div>
     @if($advertisement->is_promoted)
     <div class="inline-block bg-yellow-200 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full w-max">
                 Promoted
