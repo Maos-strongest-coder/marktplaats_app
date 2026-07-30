@@ -126,7 +126,7 @@ Route::middleware(['auth'])->group(function()  {
                 Route::put('{advertisement}', 'update')
                         ->name('update');
                 
-                Route::delete('{advertisement}', 'destroy')
+                Route::delete('{advertisement}/destroy', 'destroy')
                     ->name('destroy');
                 
                 Route::get('{advertisement}/promote', 'promoteForm')

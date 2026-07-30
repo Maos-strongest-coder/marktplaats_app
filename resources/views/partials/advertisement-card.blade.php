@@ -1,7 +1,7 @@
 <div class="adv-card">
-    <p>category: {{ $advertisement->category->name}}</p>
+    <p>{{ $advertisement->category->name}}</p>
     
-    <div class="adv-card-image-wrapper">
+    <div class="adv-card-img-container">
     
         <img src="{{asset($advertisement->image)}}" class="adv-card-img">
     
@@ -9,15 +9,21 @@
     
     <div class="adv-card-body">
 
-        <a href="{{ route('advertisements.show', $advertisement->id) }}" class="adv-card-title">
-            {{ $advertisement->title }}
-        </a>
+        
 
         @if(request()->routeIs('advertisements.show'))
+            <p class="adv-card-title">
+                {{ $advertisement->title }}
+            </p>
+
             <p class="adv-card-text">
                 {{ $advertisement->content }}
             </p>
         @else
+            <a href="{{ route('advertisements.show', $advertisement->id) }}" class="adv-card-title">
+                {{ $advertisement->title }}
+            </a>
+
             <p class="adv-card-text">
                 {{ Str::limit($advertisement->content, 100) }}
             </p>
@@ -36,25 +42,14 @@
                 Edit
             </a>
 
-            <a>
-                Delete
-            </a>
+            <form action="{{ route('advertisements.destroy', $advertisement) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                
+                <button type="submit">
+                    Delete
+                </button>
+            </form>
         @endif
     </div>
-    
-        
-    
-
-    @if (request()->routeIs('advertisements.show', 'advertisements.my') && Auth()->id() === $advertisement->user_id)
-        <div class="p-4 border-t bg-white shrink-0">
-            <a href="{{ route('advertisements.edit', $advertisement->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">
-                Edit</a>
-
-            <a href="{{ route('advertisements.destroy', $advertisement->id) }}">
-                Delete
-            </a>
-        </div>
-    @endif
-
-    
-</div>
+a
