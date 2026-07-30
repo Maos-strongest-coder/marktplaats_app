@@ -19,7 +19,7 @@
                         $isActive = request('partner_id') == $partner->id && request('advertisement_id') == $conversation->advertisement_id;
                     @endphp
                     <li>
-                       <a href="{{ route('inbox', ['partner_id' => $partner->id, 'advertisement_id' => $conversation->advertisement_id]) }}" class="block p-4 hover:bg-blue-500 transition {{ $isActive ? 'bg-blue-300' : '' }}">
+                       <a href="{{ route('messages.inbox', ['partner_id' => $partner->id, 'advertisement_id' => $conversation->advertisement_id]) }}" class="block p-4 hover:bg-blue-500 transition {{ $isActive ? 'bg-blue-300' : '' }}">
                         
                             <p class="font-medium">{{$partner->name }}</p>
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\BidController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\InboxController;
@@ -12,48 +13,142 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\EmailVerificationController;
 
+// public routes
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
-Route::get('/advertisements/my', [AdvertisementController::class, 'myAdvertisements'])->name('advertisements.my')->middleware('auth', 'verified');
+// guest routes
+Route::middleware(['guest'])->group(function()  {
 
-Route::get('/advertisements/create', [AdvertisementController::class, 'create'])->name('advertisements.create')->middleware('auth', 'verified');
-Route::post('/advertisements', [AdvertisementController::class, 'store'])->name('advertisements.store')->middleware('auth', 'verified');
+    Route::prefix('register')
+        ->name('register.')
+        ->controller(RegisterController::class)
+        ->group(function() {
 
-Route::get('/advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
+            Route::get('', 'show')
+                ->name('show');
 
+            Route::post('', 'store')
+                ->name('store');
+        });
 
+    Route::prefix('login')
+        ->controller(LoginController::class)
+        ->group(function() {
+            
+            Route::get('', 'showLoginForm')
+                ->name('login');
+            
+            Route::post('', 'login')
+                ->name('login.attempt');
+        });
 
+    Route::prefix('forgot-password')
+        ->name('password.')
+        ->controller(PasswordController::class)
+        ->group(function() {
 
-Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register')->middleware('guest');
-Route::post('/register', [RegisterController::class, 'register']);
+            Route::get('', 'showLinkRequestForm')
+                ->name('request');
+            Route::post('', 'sendResetLink')
+                ->name('email');
+         });
 
-Route::get('/email/verify', [EmailVerificationController::class, 'notice'])->middleware('auth')->name('verification.notice');
+    Route::prefix('reset-password')
+        ->name('password.')
+        ->controller(PasswordController::class)
+        ->group(function() {
 
-Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
+            Route::get('{token}', 'showResetForm')
+                ->name('reset');
+            Route::post('', 'reset')
+                ->name('update');
 
-Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+        });
+});
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'login']);
+// authenticated routes
+Route::middleware(['auth'])->group(function()  {
+    
+    Route::prefix('email')
+        ->name('verification.')
+        ->controller(EmailVerificationController::class)
+        ->group(function() {
+        
+            Route::get('verify', 'notice')
+                ->name('notice');
 
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+            Route::post('verification-notification', 'send')
+                ->name('send')
+                ->middleware('throttle:6,1');
+            
+            Route::get('verify/{id}/{hash}', 'verify')
+                ->name('verify')
+                ->middleware('signed');
+            
+    });
 
-Route::get('/forgot-password',[PasswordController::class , 'showLinkRequestForm'])->middleware('guest')->name('password.request');
+    Route::prefix('settings')
+        ->name('settings.')
+        ->controller(SettingsController::class)
+        ->group(function() {
+            
+            Route::get('', 'showSettings')
+                ->name('show');
+            Route::put('', 'update')
+                ->name('update');
+        });
 
-Route::post('/forgot-password', [PasswordController::class , 'sendResetLinkEmail'])->middleware('guest')->name('password.email');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/reset-password/{token}', [PasswordController::class , 'showResetForm'])->middleware('guest')->name('password.reset');
+    // authenticated and verified routes
+    Route::middleware(['verified'])->group(function()  {
+    
+        Route::prefix('advertisements')
+            ->name('advertisements.')
+            ->controller(AdvertisementController::class)
+            ->group(function() {
+                
+                Route::get('my', 'myAdvertisements')
+                        ->name('my');
 
-Route::post('/reset-password', [PasswordController::class , 'reset'])->middleware('guest')->name('password.update');
+                Route::get('create', 'create')
+                        ->name('create');
 
-Route::get('/messages/inbox', [InboxController::class, 'inbox'])->name('inbox')->middleware('auth', 'verified');
+                Route::post('', 'store')
+                        ->name('store');
 
-Route::post('messages/send', [MessageController::class, 'sendMessage'])->name('messages.send')->middleware('auth');
+                Route::get('{advertisement}', 'show')
+                        ->name('show');
 
-Route::get('/settings', [SettingsController::class, 'showSettings'])->name('settings.show')->middleware('auth');
+                Route::get('{advertisement}/edit', 'edit')
+                        ->name('edit');
 
-Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+                Route::put('{advertisement}', 'update')
+                        ->name('update');
+                
+                Route::delete('{advertisement}', 'destroy')
+                    ->name('destroy');
+                
+                Route::get('{advertisement}/promote', 'promoteForm')
+                    ->name('promote');
 
-Route::get('/advertisements/{advertisement}/edit', [AdvertisementController::class, 'edit'])->name('advertisements.edit')->middleware('auth');
+                Route::post('{advertisement}/promote', 'promote')
+                    ->name('promote');
 
-Route::put('/advertisements/{advertisement}', [AdvertisementController::class, 'update'])->name('advertisements.update')->middleware('auth');
+                Route::post('{advertisement}/bids', [BidController::class, 'store'])
+                    ->name('bids.store');
+            });
+    
+    
+        Route::prefix('messages')
+            ->name('messages.')
+            ->group(function() {
+                
+                Route::get('inbox', [InboxController::class, 'inbox'])
+                    ->name('inbox');
+
+                Route::post('send', [MessageController::class, 'sendMessage'])
+                    ->name('send');
+            });
+    });
+});

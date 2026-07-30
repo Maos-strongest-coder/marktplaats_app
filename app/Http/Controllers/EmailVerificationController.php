@@ -17,8 +17,7 @@ class EmailVerificationController extends Controller
     {
         $request->fulfill();
 
-        return redirect('/advertisements/my')
-            ->with('message', 'Your email has successfully been verified!');
+        return redirect('/advertisements/my')->with('message', 'Your email has successfully been verified!');
     }
 
     public function send(Request $request) 

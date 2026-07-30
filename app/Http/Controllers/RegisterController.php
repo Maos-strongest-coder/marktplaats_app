@@ -3,35 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\User; 
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
+use App\Http\Requests\StoreRegistrationRequest;
 
 class RegisterController extends Controller
 {
-    public function showRegisterForm()
+    public function show()
     {
         return view('auth.register');
     }
 
-    public function register(Request $request) {
-        $incomingValues = $request->validate([
-            'name' => ['required', 'min:2', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => ['required', 'min:8'],
-        ]);
+    public function store(StoreRegistrationRequest $request) {
+        $validated = $request->validated();
 
         $user = User::create([
-            'name' => $incomingValues['name'],
-            'email' => $incomingValues['email'],
-            'password' => Hash::make($incomingValues['password']),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
             'notifications_enabled' => $request->has('notifications_enabled')
         ]);
 
         event(new Registered($user));
         Auth::login($user);
+        
         return redirect('/email/verify');
     }
 }

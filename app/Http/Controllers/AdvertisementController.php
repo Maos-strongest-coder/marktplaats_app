@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
+use App\Http\Requests\StoreAdvertisementRequest;
+use App\Http\Requests\UpdateAdvertisementRequest;
+
 
  
 
@@ -13,6 +16,10 @@ class AdvertisementController extends Controller
 {
     public function show(Advertisement $advertisement)
     {
+        $advertisement->load(['bids' => function ($query) {
+            $query->orderByDesc('amount');
+        }, 'bids.user']);
+
         return view('advertisements.show', compact('advertisement'));
     }
 
@@ -31,17 +38,14 @@ class AdvertisementController extends Controller
         return view('advertisements.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreAdvertisementRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|min:10',
-            'image_path' => 'nullable|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-        ]);
+        $validated = $request->validated();
 
+        /** @var \App\Models\User $user  */
         $user = Auth::user();
+
+        $isPromoted = $request->boolean('is_promoted');
 
         $user->advertisements()->create([
             'title' => $validated['title'],
@@ -49,10 +53,10 @@ class AdvertisementController extends Controller
             'image_path' => $validated['image_path'],
             'category_id' => $validated['category_id'],
             'price' => $validated['price'],
-            'is_paid' => $request->input('is_paid', false),
-            'is_active' => $request->input('is_active', true),
+            'is_promoted' => $isPromoted,
+            'promoted_at' => $isPromoted ? now() : null,
         ]);
-
+        
         return redirect()->route('advertisements.my')->with('message', 'Advertisement created Successfully');
     }
 
@@ -62,19 +66,48 @@ class AdvertisementController extends Controller
         return view('advertisements.edit', compact('advertisement', 'categories'));
     }
 
-    public function update(Request $request, Advertisement $advertisement)
+    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement)
     {
-        $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string|min:10',
-        'image_path' => 'nullable|string|max:255',
-        'category_id' => 'required|exists:categories,id',
-        'price' => 'required|numeric|min:0|max:9001',
-    ]);
+        $validated = $request->validated();
 
         $advertisement->update($validated);
         
         return redirect()->route('advertisements.my')->with('message', 'Advertisement updated successfully!');
-}
     }
+
+    public function destroy(Advertisement $advertisement)
+    {
+        if (Auth::id() !== $advertisement->user_id) {
+            return redirect()->route('advertisements.my')->withErrors(['error' => 'You are not authorized to delete this advertisement.']);
+        }
+
+        $advertisement->delete();
+
+        return redirect()->route('advertisements.my')->with('message', 'Advertisement deleted successfuly');
+    }
+
+    public function promoteForm(Advertisement $advertisement)
+    {
+        if (Auth::id() !== $advertisement->user_id) {
+            return redirect()->back()->withErrors(['error' => "You cannot promote someone else's advertisement"]);
+        }
+
+        return view('advertisements.promote', ['advertisement' => $advertisement]);
+    }
+
+    public function promote(Advertisement $advertisement)
+    {
+        if (Auth::id() !== $advertisement->user_id) {
+            return redirect()->back()->withErrors(['error' => "You cannot promote someone else's advertisement"]);
+        }
+
+        $advertisement->update([
+            'is_promoted' => true,
+            'promoted_at' => now(),
+        ]);
+
+        return redirect()->route('advertisements.my')->with('message', 'Advertisement promoted successfuly');
+    }
+
+}
 

@@ -23,7 +23,7 @@ class BidFactory extends Factory
         return [
             'user_id' => User::factory(),
             'advertisement_id' => Advertisement::factory(),
-            'price' => function (array $attributes) {
+            'amount' => function (array $attributes) {
                 $advertisementId = $attributes['advertisement_id'];
                 $advertisement = Advertisement::find($advertisementId);
                 $maxPrice = $advertisement ? $advertisement->price : 999;
