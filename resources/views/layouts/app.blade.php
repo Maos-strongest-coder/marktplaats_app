@@ -4,6 +4,7 @@
             <meta charset="UTF-8">
                 <title>Mo's Marktplaats - @yield('title')</title>
                 <script src="https://cdn.tailwindcss.com"></script>
+                @vite(['resources/css/app.css'])
         </head>
 
         <body class="h-full">
