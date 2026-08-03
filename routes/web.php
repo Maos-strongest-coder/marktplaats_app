@@ -12,10 +12,18 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\EmailVerificationController;
 
-// public routes
+/*
+|----------------------------------------------------------------------------
+| public routes
+|----------------------------------------------------------------------------
+*/
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
-// guest routes
+/*
+|----------------------------------------------------------------------------
+| guest routes
+|----------------------------------------------------------------------------
+*/
 Route::middleware(['guest'])->group(function()  {
 
     Route::prefix('register')
@@ -65,7 +73,11 @@ Route::middleware(['guest'])->group(function()  {
         });
 });
 
-// authenticated routes
+/*
+|----------------------------------------------------------------------------
+| authenticated routes
+|----------------------------------------------------------------------------
+*/ 
 Route::middleware(['auth'])->group(function()  {
     
     Route::prefix('email')
@@ -99,7 +111,11 @@ Route::middleware(['auth'])->group(function()  {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    // authenticated and verified routes
+    /*
+    |----------------------------------------------------------------------------
+    | authenticated and verified routes
+    |----------------------------------------------------------------------------
+    */  
     Route::middleware(['verified'])->group(function()  {
     
         Route::prefix('advertisements')
