@@ -18,6 +18,6 @@ class BidSeeder extends Seeder
         $users = User::all();
         $advertisements = Advertisement::all();
         
-        Bid::factory()->count(10)->recycle($users)->recycle($advertisements)->create();
+        Bid::factory()->count(100)->recycle($users)->recycle($advertisements)->create();
     }
 }

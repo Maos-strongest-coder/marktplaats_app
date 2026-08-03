@@ -2,8 +2,8 @@
     <html lang="en" class="h-full bg-gray-200">
         <head>
             <meta charset="UTF-8">
-                <title>Mo's Marktplaats - @yield('title')</title>
-                <script src="https://cdn.tailwindcss.com"></script>
+                <title>Mo's Marktplaats - @yield('title')</title>   
+                @vite(['resources/css/app.css'])
         </head>
 
         <body class="h-full">

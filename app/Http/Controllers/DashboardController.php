@@ -13,9 +13,7 @@ class DashboardController extends Controller
     {
         $categories = Category::orderBy('name', 'asc')->get();
 
-        $query = Advertisement::query()->where('is_active', true)
-            ->orderByRaw('promoted_at IS NULL')   
-            ->orderByDesc('promoted_at')
+        $query = Advertisement::query()
             ->orderByDesc('created_at', 'desc');
 
         $query->when($request->filled('search'), function ($query) use ($request) {
@@ -30,8 +28,12 @@ class DashboardController extends Controller
 
         $advertisements = $query->paginate(9)->withQueryString();
         
+        $featuredAds = Advertisement::query()
+            ->where('is_promoted', true)
+            ->orderByDesc('promoted_at')
+            ->paginate(3, ['*'], 'featured_page');
 
-        return view('dashboard', compact('categories', 'advertisements'));
+        return view('dashboard', compact('categories', 'advertisements', 'featuredAds'));
     }
 }
 

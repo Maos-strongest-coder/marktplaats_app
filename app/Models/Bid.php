@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Bid extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'advertisement_id',
+        'user_id',
+        'amount'
+    ];
     
     public function advertisment(): BelongsTo 
     {

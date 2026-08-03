@@ -1,0 +1,33 @@
+
+    @utility adv-card {
+        @apply bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm transition-all duration-200 hover:shadow-md flex flex-col h-full;
+    }
+
+    @utility adv-card-img-container {
+        @apply aspect-video w-full bg-gray-100 overflow-hidden relative;
+    }
+
+    @utility adv-card-img {
+        @apply w-full h-full object-cover transition-transform duration-300 hover:scale-105;
+    }
+
+    @utility adv-card-body {
+        @apply p-4 flex flex-col flex-grow gap-2;
+    }
+
+    @utility adv-card-title {
+        @apply font-bold text-lg text-gray-900 line-clamp-1;
+    }
+
+    @utility adv-card-text {
+        @apply text-sm text-gray-600 line-clamp-2 flex-grow;
+    }
+
+    @utility adv-card-footer {
+        @apply mt-auto pt-3 border-t border-gray-100 flex items-center justify-between;
+    }
+
+    @utility adv-card-price {
+        @apply font-extrabold text-xl text-gray-900;
+    }
+

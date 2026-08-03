@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('advertisement_id')->constrained();
-            $table->float('price');
+            $table->decimal('amount', 6, 2);
             
             $table->timestamps();
         });

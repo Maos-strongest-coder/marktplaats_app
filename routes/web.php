@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\BidController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\InboxController;
@@ -141,7 +142,7 @@ Route::middleware(['auth'])->group(function()  {
                 Route::put('{advertisement}', 'update')
                         ->name('update');
                 
-                Route::delete('{advertisement}', 'destroy')
+                Route::delete('{advertisement}/destroy', 'destroy')
                     ->name('destroy');
                 
                 Route::get('{advertisement}/promote', 'promoteForm')
@@ -149,6 +150,9 @@ Route::middleware(['auth'])->group(function()  {
 
                 Route::post('{advertisement}/promote', 'promote')
                     ->name('promote');
+
+                Route::post('{advertisement}/bids', [BidController::class, 'store'])
+                    ->name('bids.store');
             });
     
     
